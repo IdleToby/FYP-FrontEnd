@@ -1,18 +1,18 @@
 <template>
-  <div class="bg-sky-500 h-screen flex justify-center items-center">
+  <div class=" h-screen flex justify-center items-center" style="background-color: #409eff;">
     <div class="flex w-1/2 bg-white rounded-md overflow-hidden">
       <div class="flex-1">
         <img src="../assets/login.png" style="width: 100%" />
       </div>
       <div class="flex-1 flex items-center justify-center">
         <el-form :model="user" :rules="rules" ref="myForm" class="w-10/12">
-          <h1 class="text-lg font-bold text-center mb-4">Login</h1>
+          <h1 class="text-lg font-bold text-center mb-4">Welcome to platform</h1>
           <el-form-item prop="username">
             <el-input
               prefix-icon="user"
               size="default"
               v-model="user.username"
-              placeholder="Please enter your username"
+              placeholder="Username"
             ></el-input>
           </el-form-item>
           <el-form-item prop="password">
@@ -21,16 +21,22 @@
               size="default"
               show-password
               v-model="user.password"
-              placeholder="Please enter your password"
+              placeholder="Password"
             ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" style="width: 100%" @click="login">Login</el-button>
           </el-form-item>
           <div class="flex">
-            <div style="color: #409eff; cursor: pointer" class="flex-1">Forgotten password?</div>
-            <div style="color: #409eff; cursor: pointer" class="flex-1 text-right">
-              Create account
+            <div class="flex-1">
+              <span style="color: #409eff; cursor: pointer">
+                Forgotten password?
+              </span>
+            </div>
+            <div class="flex-1 text-right">
+              <span style="color: #409eff; cursor: pointer"  @click="$router.push('/register')">
+                Create account
+              </span>
             </div>
           </div>
         </el-form>
@@ -51,8 +57,8 @@ const user = ref({
 })
 
 const rules = ref({
-  username: [{ required: true, message: 'Please enter your username', trigger: 'blur' }],
-  password: [{ required: true, message: 'Please enter your password', trigger: 'blur' }]
+  username: [{ required: true, message: 'Username should not be empty', trigger: 'blur' }],
+  password: [{ required: true, message: 'Password should not be empty', trigger: 'blur' }]
 })
 
 const myForm = ref(null)
