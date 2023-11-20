@@ -22,7 +22,7 @@
           <el-form-item prop="code">
             <div class="flex w-full">
               <div class="flex-2">
-                <el-input prefix-icon="null" size="default" v-model="user.code"
+                <el-input prefix-icon="ChatLineRound" size="default" v-model="user.code"
                   placeholder="Verification code"></el-input>
               </div>
               <div class="flex flex-1 items-center">
