@@ -34,23 +34,26 @@ function logout() {
 </script>
 
 <template>
-  <div class=" h-screen">
-    <el-menu v-if="showLayout" :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
-    @select="handleSelect" :ellipsis="false" menu-trigger="hover">
-    <el-menu-item index="/login">Login</el-menu-item>
-    <el-menu-item index="/register">Register</el-menu-item>
-    <el-menu-item index="/frontPage">Front Page</el-menu-item>
-    <div class=" flex-grow"></div>
-    <el-sub-menu index="0">
-      <template #title>
-        <el-avatar size="default" class=" mx-3" :src="user.avatarUrl"></el-avatar>
-        {{ user.name }}
-      </template>
-      <el-menu-item index="/myProfile">Profile</el-menu-item>
-      <el-menu-item @click="logout">Logout</el-menu-item>
-    </el-sub-menu>
-  </el-menu>
-  <RouterView />
+  <div>
+    <el-affix>
+      <el-menu v-if="showLayout" :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
+        @select="handleSelect" :ellipsis="false" menu-trigger="hover">
+        <el-menu-item index="/login">Login</el-menu-item>
+        <el-menu-item index="/register">Register</el-menu-item>
+        <el-menu-item index="/frontPage">Front Page</el-menu-item>
+        <div class=" flex-grow"></div>
+        <el-sub-menu index="0">
+          <template #title>
+            <el-avatar size="default" class=" mx-3" :src="user.avatarUrl"></el-avatar>
+            {{ user.name }}
+          </template>
+          <el-menu-item index="/myProfile">Profile</el-menu-item>
+          <el-menu-item @click="logout">Logout</el-menu-item>
+        </el-sub-menu>
+      </el-menu>
+    </el-affix>
+    <RouterView />
+    <el-backtop :right="100" :bottom="100" />
   </div>
 </template>
 

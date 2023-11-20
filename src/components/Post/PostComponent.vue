@@ -5,46 +5,52 @@
                 <el-avatar :src="publisher.avatarUrl" size="large"></el-avatar>
             </div>
             <div class="flex ml-2">
-                <el-link size="large" :underline="false">{{ publisher.name }}</el-link>
+                <el-link size="large" :underline="false"><el-text tag="b" size="large">{{ publisher.name }}</el-text></el-link>
             </div>
         </div>
-        <div class="flex">
+        <div class="flex mt-4">
             <div class="flex-grow">
                 <el-text>{{ showContent ? post.postContent : truncatedContent }}</el-text>
-                <el-link type="primary" @click="toggleContent">{{ buttonText }}<el-icon>
+                <el-link type="primary" @click="toggleContent">{{ showButtonText }}<el-icon>
                         <ArrowDown v-if="showContent == false" />
                         <ArrowUp v-else />
                     </el-icon></el-link>
             </div>
         </div>
-        <div class="flex">
-            <div class="flex-grow">
-                <el-text>{{ post.description }}</el-text>
-            </div>
-        </div>
-        <div class="flex">
+        <div class="flex mt-4">
             <div class="flex-grow">
                 <el-button type="primary" icon="star" link>post.like</el-button>
-                <el-button type="primary" icon="chatDotRound" link>post.comment</el-button>
+                <el-button type="info" icon="chatDotRound" link @click="toggleComment">{{ commentButtonText }}
+                    <el-icon>
+                        <ArrowDown v-if="showContent == false" />
+                        <ArrowUp v-else />
+                    </el-icon>
+                </el-button>
             </div>
+        </div>
+        <div v-if="showComment" class="commentListBorder mt-4">
+            <comment-list-component :postId="post.postId" @comment-num="handleCommentNum" />
         </div>
     </el-card>
 </template>
   
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import request from '../../utils/request'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import CommentListComponent from '../comment/CommentListComponent.vue';
+import { ElMessage } from 'element-plus';
+
+onMounted(() => {
+    fetchPublisherInfo()
+    fetchInitialCommentNum()
+})
 
 const props = defineProps({ post: Object })
 const publisher = ref({})
 const showContent = ref(false)
-const buttonText = ref('show more')
+const showButtonText = ref('show more')
 const truncatedContentLength = 180 // 设定部分显示的字符长度
-
-
-
-fetchPublisherInfo()
 
 function fetchPublisherInfo() {
     request.get('/post/getPostPublisher', { params: { publisherId: props.post.publisherId } })
@@ -67,9 +73,37 @@ function computeTruncatedContent() {
 
 function toggleContent() {
     showContent.value = !showContent.value
-    buttonText.value = showContent.value ? 'show less' : 'show more'
+    showButtonText.value = showContent.value ? 'show less' : 'show more'
 }
 
+function toggleComment() {
+    showComment.value = !showComment.value
+    commentButtonText.value = showComment.value ? 'hide comment' : commentNum.value + ' comments'
+}
+
+function handleCommentNum(num) {
+    commentNum.value = num
+}
+
+const commentNum = ref(0)
+const showComment = ref(false)
+const commentButtonText = ref('0 comments')
+// watch(() => commentNum.value, (val) => {
+//     commentButtonText.value = val + ' comments'
+// })
+function fetchInitialCommentNum() {
+    request.get('/comment/getCommentNum', { params: { postId: props.post.postId } })
+        .then((res) => {
+            commentNum.value = res
+            commentButtonText.value = res + ' comments'
+        })
+        .catch((error) => {
+            ElMessage.error('Error fetching data:', error);
+        })
+}
 </script>
-<style></style>
+<style scoped>
+.commentListBorder {
+    border: 1px solid #D6DBDF;
+}</style>
   
