@@ -5,7 +5,12 @@
                 <el-avatar :src="publisher.avatarUrl" size="large"></el-avatar>
             </div>
             <div class="flex ml-2">
-                <el-link size="large" :underline="false"><el-text tag="b" size="large">{{ publisher.name }}</el-text></el-link>
+                <el-link size="large" :underline="false"><el-text tag="b" size="large">{{ publisher.name
+                }}</el-text></el-link>
+            </div>
+            <div class=" flex-grow"></div>
+            <div class=" flex">
+                <el-text>{{ postUpdateTime }}</el-text>
             </div>
         </div>
         <div class="flex mt-4">
@@ -19,10 +24,11 @@
         </div>
         <div class="flex mt-4">
             <div class="flex-grow">
-                <el-button type="primary" icon="star" link>post.like</el-button>
+                <el-button v-btn type="primary" icon="star" :plain="showLike" @click="handleClickLike">{{ likeNum
+                }} Likes</el-button>
                 <el-button type="info" icon="chatDotRound" link @click="toggleComment">{{ commentButtonText }}
                     <el-icon>
-                        <ArrowDown v-if="showContent == false" />
+                        <ArrowDown v-if="showComment == false" />
                         <ArrowUp v-else />
                     </el-icon>
                 </el-button>
@@ -35,7 +41,7 @@
 </template>
   
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import request from '../../utils/request'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import CommentListComponent from '../comment/CommentListComponent.vue';
@@ -44,7 +50,10 @@ import { ElMessage } from 'element-plus';
 onMounted(() => {
     fetchPublisherInfo()
     fetchInitialCommentNum()
+    getLikes()
+    handleInitialLike()
 })
+
 
 const props = defineProps({ post: Object })
 const publisher = ref({})
@@ -101,9 +110,73 @@ function fetchInitialCommentNum() {
             ElMessage.error('Error fetching data:', error);
         })
 }
+
+const postUpdateTime = computed(() => {
+    return new Date(props.post.updateTime).toLocaleString()
+})
+
+const showLike = ref(false)
+function handleClickLike() {
+    if (!showLike.value) {
+        request.post('/post/addLike', {
+            postId: props.post.postId,
+            userId: JSON.parse(localStorage.getItem('user')).userId
+        })
+            // eslint-disable-next-line no-unused-vars
+            .then((res) => {
+                getLikes()
+                ElMessage.success('like success')
+            })
+            .catch((error) => {
+                ElMessage.error('Error fetching data:', error);
+            })
+    } else {
+        request.post('/post/removeLike', {
+            postId: props.post.postId,
+            userId: JSON.parse(localStorage.getItem('user')).userId
+        })
+            // eslint-disable-next-line no-unused-vars
+            .then((res) => {
+                getLikes()
+                ElMessage.success('unlike success')
+            })
+            .catch((error) => {
+                ElMessage.error('Error fetching data:', error);
+            })
+    }
+
+    showLike.value = !showLike.value
+}
+
+const likeNum = ref(0)
+function getLikes() {
+    request.get('/post/getLikes', { params: { postId: props.post.postId } })
+        .then((res) => {
+            likeNum.value = res
+        })
+        .catch((error) => {
+            ElMessage.error('Error fetching data:', error);
+        })
+}
+
+function handleInitialLike() {
+    request.post('/post/getLikesNum', {
+        postId: props.post.postId,
+        userId: JSON.parse(localStorage.getItem('user')).userId
+    })
+        .then((res) => {
+            if (res.data.likesNum > 0 && props.post.postId == res.data.postId) {
+                showLike.value = true
+            }
+        })
+        .catch((error) => {
+            ElMessage.error('Error fetching data:', error);
+        })
+}
 </script>
 <style scoped>
 .commentListBorder {
     border: 1px solid #D6DBDF;
-}</style>
+}
+</style>
   

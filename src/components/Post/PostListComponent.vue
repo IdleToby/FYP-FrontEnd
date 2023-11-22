@@ -8,9 +8,13 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import PostComponent from './PostComponent.vue';
 import request from '../../utils/request';
+
+onMounted(() => {
+    fetchData()
+})
 
 const postList = ref([])
 
@@ -41,7 +45,5 @@ const handleCurrentChange = (val) => {
     pageNum.value = val;
     fetchData();
 };
-
-fetchData(); // Fetch initial data on component mount
 </script>
 <style></style>
