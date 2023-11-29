@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 
 const activeIndex = ref('/frontPage')
-const notShowLayoutList = ['/login', '/register']
+const notShowLayoutList = ['/login', '/register', '/forgetPassword']
 // eslint-disable-next-line no-unused-vars
 const handleSelect = (key, keyPath) => {
   //console.log(key, keyPath)
@@ -47,7 +47,8 @@ function logout() {
             <el-avatar size="default" class=" mx-3" :src="user.avatarUrl"></el-avatar>
             {{ user.name }}
           </template>
-          <el-menu-item index="/myProfile">Profile</el-menu-item>
+          <el-menu-item index="/myProfile">My Profile</el-menu-item>
+          <el-menu-item index="/changePassword">Change Password</el-menu-item>
           <el-menu-item @click="logout">Logout</el-menu-item>
         </el-sub-menu>
       </el-menu>

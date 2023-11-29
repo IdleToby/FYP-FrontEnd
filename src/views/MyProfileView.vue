@@ -1,9 +1,8 @@
 <template>
-  <br />
-  <div class=" w-8/12 mx-auto">
+  <div class=" w-8/12 mx-auto mt-2">
     <el-card class=" mx-auto">
       <div class=" mx-auto flex justify-center">
-        <div class=" mx-auto">
+        <div class=" mx-auto self-center">
           <el-upload action="http://localhost:8080/file/upload" :headers="{ token: localUser.token }"
             :showFileList=false :on-success="handleAvatarUploadSuccess" v-if="checkEdit == true">
             <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
@@ -37,7 +36,7 @@
     </el-card>
     <el-row>
       <el-col :span="16">
-        <post-list-component />
+        <my-post-list-component></my-post-list-component>
       </el-col>
       <el-col :span="8">
         <friendlist-component />
@@ -50,7 +49,7 @@
 import { ref } from 'vue';
 import request from '../utils/request';
 import { ElMessage } from 'element-plus';
-import PostListComponent from '../components/Post/PostListComponent.vue'
+import MyPostListComponent from '../components/Profile/MyPostListComponent.vue';
 import FriendlistComponent from '../components/Profile/FriendListComponent.vue'
 
 const localUser = ref()
