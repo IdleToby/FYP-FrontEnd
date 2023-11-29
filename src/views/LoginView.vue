@@ -29,7 +29,7 @@
           </el-form-item>
           <div class="flex">
             <div class="flex-1">
-              <span style="color: #409eff; cursor: pointer">
+              <span style="color: #409eff; cursor: pointer" @click="$router.push('/forgetPassword')">
                 Forgotten password?
               </span>
             </div>
