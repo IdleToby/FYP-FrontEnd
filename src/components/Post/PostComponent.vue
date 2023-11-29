@@ -5,8 +5,8 @@
                 <el-avatar :src="publisher.avatarUrl" size="large"></el-avatar>
             </div>
             <div class="flex ml-2">
-                <el-link size="large" :underline="false"><el-text tag="b" size="large">{{ publisher.name
-                }}</el-text></el-link>
+                <el-button size="large" link @click="handleClickName"><el-text tag="b" size="large">{{ publisher.name
+                }}</el-text></el-button>
             </div>
             <div class=" flex-grow"></div>
             <div class=" flex">
@@ -46,6 +46,7 @@ import request from '../../utils/request'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import CommentListComponent from '../comment/CommentListComponent.vue';
 import { ElMessage } from 'element-plus';
+import {useRouter} from 'vue-router'
 
 onMounted(() => {
     fetchPublisherInfo()
@@ -172,6 +173,11 @@ function handleInitialLike() {
         .catch((error) => {
             ElMessage.error('Error fetching data:', error);
         })
+}
+
+const router = useRouter()
+function handleClickName() {
+    router.push({ path: '/profile/' + publisher.value.userId })
 }
 </script>
 <style scoped>

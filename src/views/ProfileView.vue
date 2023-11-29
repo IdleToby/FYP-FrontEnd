@@ -1,6 +1,5 @@
 <template>
-    <br />
-    <div class=" w-8/12 mx-auto">
+    <div class=" w-8/12 mx-auto mt-2">
         <el-card class=" mx-auto">
             <div class=" mx-auto flex justify-center">
                 <div class=" mx-auto">
@@ -18,21 +17,15 @@
                     </el-form-item>
                 </el-form>
                 <div class=" mx-auto">
-                    <div v-if="checkEdit == false" class=" h-full flex">
+                    <div class=" h-full hidden">
                         <el-button class=" my-auto" type="primary" @click="checkEdit = true" icon="Edit">Edit</el-button>
-                    </div>
-                    <div v-else class=" h-full flex flex-col items-center ">
-                        <div class=" my-auto"><el-button type="primary" @click="submitEdit" icon="check">Confirm</el-button>
-                        </div>
-                        <div class=" my-auto"><el-button type="danger" @click="cancelEdit" icon="close">Cancel</el-button>
-                        </div>
                     </div>
                 </div>
             </div>
         </el-card>
         <el-row>
             <el-col :span="16">
-                <post-list-component />
+                <ProfilePostListComponent />
             </el-col>
             <el-col :span="8">
                 <friendlist-component />
@@ -42,12 +35,38 @@
 </template>
       
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import request from '../utils/request';
-import { ElMessage } from 'element-plus';
-import PostListComponent from '../components/Post/PostListComponent.vue'
+import ProfilePostListComponent from '../components/Profile/ProfilePostListComponent.vue';
 import FriendlistComponent from '../components/Profile/FriendListComponent.vue'
+import { useRoute } from 'vue-router'
+import router from '../router';
 
+const formUser = ref({})
+const checkEdit = ref(false)
+
+const route = useRoute()
+const userId = ref(route.params.userId)
+
+function fetchUserInfo() {
+    request.get('/user/getUserById', {
+        params: {
+            userId: userId.value
+        }
+    }).then(res => {
+        formUser.value = res.data
+    })
+}
+
+const localUser = JSON.parse(localStorage.getItem('user'))
+watch(userId, () => {
+    if (userId.value == localUser.userId) {
+        router.replace({ path: '/myProfile' })
+    }
+}, { immediate: true })
+
+
+fetchUserInfo()
 </script>
       
 <style scoped>

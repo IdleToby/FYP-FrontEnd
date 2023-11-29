@@ -36,7 +36,7 @@
     </el-card>
     <el-row>
       <el-col :span="16">
-        <my-post-list-component></my-post-list-component>
+        <my-profile-post-list-component />
       </el-col>
       <el-col :span="8">
         <friendlist-component />
@@ -49,7 +49,7 @@
 import { ref } from 'vue';
 import request from '../utils/request';
 import { ElMessage } from 'element-plus';
-import MyPostListComponent from '../components/Profile/MyPostListComponent.vue';
+import MyProfilePostListComponent from '../components/Profile/MyProfilePostListComponent.vue';
 import FriendlistComponent from '../components/Profile/FriendListComponent.vue'
 
 const localUser = ref()
