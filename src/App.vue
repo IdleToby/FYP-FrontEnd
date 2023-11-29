@@ -34,12 +34,12 @@ function logout() {
 </script>
 
 <template>
-  <div>
+  <div class=" h-screen">
     <el-affix>
       <el-menu v-if="showLayout" :router="true" :default-active="activeIndex" class="el-menu-demo" mode="horizontal"
         @select="handleSelect" :ellipsis="false" menu-trigger="hover">
-        <el-menu-item index="/login">Login</el-menu-item>
-        <el-menu-item index="/register">Register</el-menu-item>
+        <!-- <el-menu-item index="/login">Login</el-menu-item>
+        <el-menu-item index="/register">Register</el-menu-item> -->
         <el-menu-item index="/frontPage">Front Page</el-menu-item>
         <div class=" flex-grow"></div>
         <el-sub-menu index="0">

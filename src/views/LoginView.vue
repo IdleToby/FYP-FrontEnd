@@ -70,7 +70,7 @@ function login() {
         if (res.code === '200') {
           //localStorage.setItem("token", res.token)
           localStorage.setItem('user', JSON.stringify(res.data))
-          router.push({ path: '/test' })
+          router.push({ path: '/frontPage' })
           ElMessage.success('Login successful')
         } else {
           ElMessage.error(res.msg)
