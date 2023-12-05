@@ -15,11 +15,17 @@
         </div>
         <div class="flex mt-4">
             <div class="flex-grow">
-                <el-text>{{ showContent ? post.postContent : truncatedContent }}</el-text>
-                <el-link type="primary" @click="toggleContent">{{ showButtonText }}<el-icon>
+                <div class="content-wrapper"
+                    :style="{ maxHeight: showContent ? 'none' : '100px', overflow: showContent ? 'none' : 'hidden' }"
+                    ref="contentRef">
+                    <div v-html="props.post.postContent"></div>
+                </div>
+                <el-link v-if="showMoreButton" type="primary" @click="toggleContent">{{ showButtonText }}
+                    <el-icon>
                         <ArrowDown v-if="showContent == false" />
                         <ArrowUp v-else />
-                    </el-icon></el-link>
+                    </el-icon>
+                </el-link>
             </div>
         </div>
         <div class="flex mt-4">
@@ -32,6 +38,9 @@
                         <ArrowUp v-else />
                     </el-icon>
                 </el-button>
+            </div>
+            <div class="flex">
+                <el-tag class="ml-2" effect="light" round>{{ props.post.postTag }}</el-tag>
             </div>
         </div>
         <div v-if="showComment" class="commentListBorder mt-4">
@@ -46,10 +55,11 @@ import request from '../../utils/request'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import CommentListComponent from '../comment/CommentListComponent.vue';
 import { ElMessage } from 'element-plus';
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 
 onMounted(() => {
     fetchPublisherInfo()
+    computeTruncatedContent()
     fetchInitialCommentNum()
     getLikes()
     handleInitialLike()
@@ -60,25 +70,25 @@ const props = defineProps({ post: Object })
 const publisher = ref({})
 const showContent = ref(false)
 const showButtonText = ref('show more')
-const truncatedContentLength = 180 // 设定部分显示的字符长度
 
 function fetchPublisherInfo() {
     request.get('/post/getPostPublisher', { params: { publisherId: props.post.publisherId } })
         .then((res) => {
             publisher.value = res.data
-            computeTruncatedContent()
         })
         .catch((error) => {
             console.log(error)
         })
 }
 
-// 根据部分显示状态计算截取的部分内容
-const truncatedContent = ref('') // 初始化截取内容
+const contentRef = ref(null);
+const showMoreButton = ref(false)
 
-// 计算部分显示内容
 function computeTruncatedContent() {
-    truncatedContent.value = props.post.postContent.slice(0, truncatedContentLength) + '...'
+    if (contentRef.value) {
+        const contentHeight = contentRef.value.offsetHeight;
+        showMoreButton.value = contentHeight >= 100;
+      }
 }
 
 function toggleContent() {
@@ -183,6 +193,10 @@ function handleClickName() {
 <style scoped>
 .commentListBorder {
     border: 1px solid #D6DBDF;
+}
+
+.content-wrapper {
+    transition: max-height 0.3s ease-in-out;
 }
 </style>
   
