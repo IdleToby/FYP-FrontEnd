@@ -16,6 +16,7 @@ onMounted(() => {
     fetchData()
 })
 
+
 const postList = ref([])
 
 const pageNum = ref(1);
