@@ -13,6 +13,15 @@
                 <el-text>{{ postUpdateTime }}</el-text>
             </div>
         </div>
+        <div class=" flex mt-4">
+            <div class=" flex-grow"></div>
+            <el-link v-if="showMoreButton" type="primary" @click="toggleContent">{{ showButtonText }}
+                <el-icon>
+                    <ArrowDown v-if="showContent == false" />
+                    <ArrowUp v-else />
+                </el-icon>
+            </el-link>
+        </div>
         <div class="flex mt-4">
             <div class="flex-grow">
                 <div class="content-wrapper"
@@ -20,12 +29,6 @@
                     ref="contentRef">
                     <div v-html="props.post.postContent"></div>
                 </div>
-                <el-link v-if="showMoreButton" type="primary" @click="toggleContent">{{ showButtonText }}
-                    <el-icon>
-                        <ArrowDown v-if="showContent == false" />
-                        <ArrowUp v-else />
-                    </el-icon>
-                </el-link>
             </div>
         </div>
         <div class="flex mt-4">
@@ -69,7 +72,7 @@ onMounted(() => {
 const props = defineProps({ post: Object })
 const publisher = ref({})
 const showContent = ref(false)
-const showButtonText = ref('show more')
+const showButtonText = ref('show all')
 
 function fetchPublisherInfo() {
     request.get('/post/getPostPublisher', { params: { publisherId: props.post.publisherId } })
@@ -93,7 +96,7 @@ function computeTruncatedContent() {
 
 function toggleContent() {
     showContent.value = !showContent.value
-    showButtonText.value = showContent.value ? 'show less' : 'show more'
+    showButtonText.value = showContent.value ? 'show less' : 'show all'
 }
 
 function toggleComment() {

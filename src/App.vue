@@ -41,6 +41,7 @@ function logout() {
         <!-- <el-menu-item index="/login">Login</el-menu-item>
         <el-menu-item index="/register">Register</el-menu-item> -->
         <el-menu-item index="/frontPage">Front Page</el-menu-item>
+        <el-menu-item index="/news">News</el-menu-item>
         <div class=" flex-grow"></div>
         <el-sub-menu index="0">
           <template #title>

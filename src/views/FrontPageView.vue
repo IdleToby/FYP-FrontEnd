@@ -23,21 +23,12 @@
       <el-form-item label="Content:" prop="postContent">
         <!-- <el-input type="textarea" v-model="newPost.postContent" placeholder="Write the concent of your post"
           :rows="5"></el-input> -->
-          <div style="border: 1px solid #ccc; width: 100%;">
-            <Toolbar
-              style="border-bottom: 1px solid #ccc"
-              :editor="editorRef"
-              :defaultConfig="toolbarConfig"
-              :mode="mode"
-            />
-            <Editor
-              style="height: 300px; overflow-y: hidden;"
-              v-model="newPost.postContent"
-              :defaultConfig="editorConfig"
-              :mode="mode"
-              @onCreated="handleCreated"
-            />
-          </div>
+        <div style="border: 1px solid #ccc; width: 100%;">
+          <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
+            :mode="mode" />
+          <Editor style="height: 300px; overflow-y: hidden;" v-model="newPost.postContent" :defaultConfig="editorConfig"
+            :mode="mode" @onCreated="handleCreated" />
+        </div>
       </el-form-item>
       <el-form-item label="Tag:" prop="postTag">
         <el-select v-model="newPost.postTag" placeholder="">
@@ -106,12 +97,9 @@ const newPost = ref({
   postTag: '',
 })
 
-const tagList = ref([
-  { label: 'Daily Life', value: 'Daily Life' },
-  { label: 'Academic', value: 'Academic' },
-  { label: 'Entertainment', value: 'Entertainment' },
-  { label: 'Resource Sharing', value: 'Resource Sharing' }
-])
+import { useTagsStore } from '@/stores/tags'
+const tags = useTagsStore()
+const tagList = tags.tagList
 
 const myForm = ref(null)
 function submitPost() {
@@ -125,7 +113,11 @@ function submitPost() {
         }
       })
       dialogVisible.value = false
-      window.location.reload()
+
+      //等待一秒
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
     }
   })
 }
@@ -139,12 +131,41 @@ const valueHtml = ref('')
 
 const toolbarConfig = {}
 toolbarConfig.excludeKeys = [
-    'headerSelect',
-    'quote',
-    'fullScreen'
+  'headerSelect',
+  'quote',
+  'fullScreen'
 ]
 
-const editorConfig = { placeholder: 'Please type content...' }
+const baseURL = 'http://localhost:8080'
+const localUser = ref(JSON.parse(localStorage.getItem('user')))
+const editorConfig = {
+  placeholder: 'Please type content...',
+  MENU_CONF: {
+    'uploadImage': {
+      server: baseURL + '/file/editor/upload',
+      fieldName: 'file',
+      maxFileSize: 20 * 1024 * 1024,
+      headers: {
+        token: localUser.value.token,
+      },
+      meta: {
+        type: 'img'
+      }
+    },
+    'uploadVideo': {
+      server: baseURL + '/file/editor/upload',
+      fieldName: 'file',
+      maxFileSize: 20 * 1024 * 1024,
+      headers: {
+        token: localUser.value.token,
+      },
+      meta: {
+        type: 'video'
+      }
+    }
+  }
+}
+
 const mode = 'default'
 
 // 组件销毁时，也及时销毁编辑器
