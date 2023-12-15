@@ -1,39 +1,39 @@
 <template>
-<div class=" w-10/12 mx-auto mt-4">
-  <!-- announcement -->
-<div class=" flex">
-  <el-card class=" w-full">
-    sdfasdf
-  </el-card>
-</div>
-<div class="flex mt-4">
-  <div class="flex-1">
-    <el-card>
-      <div class="flex">
-        <div class="flex-1">
-          <el-input placeholder="Search" v-model="searchText" clearable></el-input>
-        </div>
-        <div class="flex">
-          <el-button type="primary" icon="Search" @click="handleSearch"></el-button>
-        </div>
-      </div>
+  <div class="w-10/12 mx-auto mt-4">
+    <el-card class="w-full" style="">
+      <el-row>
+        <el-col :span="8">
+          <div>
+            <div class="text-2xl font-bold text-center mb-4">News Categories</div>
+            <el-menu :default-active="activeIndex" mode="vertical" @select="handleSelect">
+              <el-menu-item :index="type.label" v-for="type in typeList" :key="type.label">{{
+                type.label
+              }}</el-menu-item>
+            </el-menu>
+          </div>
+        </el-col>
+        <el-col :span="16">
+          <news-titles :newsType="activeIndex"></news-titles>
+        </el-col>
+      </el-row>
     </el-card>
   </div>
-  <div class="flex-1">1</div>
-  <div class="flex-1">1</div>
-</div>
-</div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import request from '../utils/request';
+import { ref, onMounted } from 'vue'
+import NewsTitles from '../components/News/NewsTitles.vue'
 
-const testData = ref([]);
-const pageNum = ref(1);
-const pageSize = ref(10);
-const total = ref(100);
+import { useNewsStore } from '../stores/news'
+const newsTypeStore = useNewsStore()
+const typeList = newsTypeStore.typeList
 
+onMounted(() => {})
+
+const activeIndex = ref(typeList[0].label)
+const handleSelect = (key) => {
+  activeIndex.value = key
+}
 </script>
 
 <style></style>

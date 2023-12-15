@@ -91,7 +91,7 @@ function computeTruncatedContent() {
     if (contentRef.value) {
         const contentHeight = contentRef.value.offsetHeight;
         showMoreButton.value = contentHeight >= 100;
-      }
+    }
 }
 
 function toggleContent() {
@@ -126,7 +126,14 @@ function fetchInitialCommentNum() {
 }
 
 const postUpdateTime = computed(() => {
-    return new Date(props.post.updateTime).toLocaleString()
+    const options = {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+    };
+    return new Date(props.post.updateTime).toLocaleString('en-MY', options)
 })
 
 const showLike = ref(false)

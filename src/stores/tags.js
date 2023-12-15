@@ -11,7 +11,5 @@ export const useTagsStore = defineStore('tags', {
       ]
     }
   },
-  // 也可以这样定义
-  // state: () => ({ count: 0 })
   actions: {}
 })

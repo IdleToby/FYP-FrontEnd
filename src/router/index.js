@@ -48,6 +48,33 @@ const router = createRouter({
       component: () => import('../views/NewsView.vue')
     },
     {
+      path: '/news/newsDetails/:newsId',
+      name: 'newsDetails',
+      component: () => import('../views/NewsDetailView.vue')
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/AdminView.vue'),
+      children: [
+        {
+          path: 'userManagement',
+          name: 'userManagement',
+          component: () => import('../views/UserManagementView.vue')
+        },
+        {
+          path: 'newsManagement',
+          name: 'newsManagement',
+          component: () => import('../views/NewsManagementView.vue')
+        },
+        {
+          path: 'postManagement',
+          name: 'postManagement',
+          component: () => import('../views/PostManagementView.vue')
+        }
+      ]
+    },
+    {
       path: '/test',
       name: 'test',
       component: () => import('../views/TestView.vue')

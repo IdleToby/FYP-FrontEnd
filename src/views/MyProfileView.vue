@@ -39,7 +39,9 @@
         <my-profile-post-list-component />
       </el-col>
       <el-col :span="8">
-        <friendlist-component />
+        <div class=" ml-2">
+          <FriendListComponent/>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -50,7 +52,7 @@ import { ref } from 'vue';
 import request from '../utils/request';
 import { ElMessage } from 'element-plus';
 import MyProfilePostListComponent from '../components/Profile/MyProfilePostListComponent.vue';
-import FriendlistComponent from '../components/Profile/FriendListComponent.vue'
+import FriendListComponent from '../components/FriendListComponent.vue'
 
 const localUser = ref()
 localUser.value = JSON.parse(localStorage.getItem('user'))

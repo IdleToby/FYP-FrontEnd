@@ -68,7 +68,12 @@ function login() {
     if (valid) {
       request.post('/login', user.value).then((res) => {
         if (res.code === '200') {
-          //localStorage.setItem("token", res.token)
+          //检查用户status
+          if (res.data.status === 'banned') {
+            ElMessage.error('Your account has been disabled, please contact the administrator')
+            return
+          }
+
           localStorage.setItem('user', JSON.stringify(res.data))
           router.push({ path: '/frontPage' })
           ElMessage.success('Login successful')
