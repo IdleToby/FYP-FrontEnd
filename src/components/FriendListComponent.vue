@@ -18,7 +18,7 @@
     </div>
     <div class=" mt-3" v-else>
         <el-card>
-            <el-empty description="You haven't added any friends, go find like-minded people!"
+            <el-empty description="You haven't added any friends yet. Go find like-minded people!"
                 image="src\assets\friend_list_empty.png"></el-empty>
         </el-card>
     </div>
