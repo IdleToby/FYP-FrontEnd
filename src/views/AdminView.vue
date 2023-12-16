@@ -31,6 +31,9 @@
           <el-menu-item index="/admin/newsManagement"
             ><span class="p-4">News Management</span></el-menu-item
           >
+          <el-menu-item index="/admin/reportManagement"
+            ><span class="p-4">Report Management</span></el-menu-item
+          >
 
           <div class=" mt-8">
             <el-menu-item index="/frontPage"><span class=" text-red-600">Front Page</span></el-menu-item>

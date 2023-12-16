@@ -20,7 +20,7 @@ onMounted(() => {
 const postList = ref([])
 
 const pageNum = ref(1);
-const pageSize = ref(10);
+const pageSize = ref(5);
 const total = ref(100);
 const totalPages = ref(10);
 

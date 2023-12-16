@@ -70,7 +70,7 @@
       />
     </div>
 
-    <el-dialog v-model="dialogVisible" title="Edit News" @close="closeDialog" class="w-3/4">
+    <el-dialog v-model="dialogVisible" title="News" @close="closeDialog" class="w-3/4">
       <el-form :model="newPost" label-width="100px" :rules="rules" ref="myForm">
         <el-form-item label="News ID:" prop="newsId">
           <el-input v-model="newPost.newsId" disabled></el-input>
@@ -107,23 +107,6 @@
               :value="type.value"
             ></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="File:" prop="hasFile">
-          <el-switch v-model="newPost.hasFile"></el-switch>
-        </el-form-item>
-        <el-form-item v-if="newPost.hasFile">
-          <el-upload
-            class="upload-demo w-full"
-            drag
-            action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-            multiple
-          >
-            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-            <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
-            <template #tip>
-              <div class="el-upload__tip">a signle file within 20MB</div>
-            </template>
-          </el-upload>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitPost">Submit</el-button>
