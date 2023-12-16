@@ -1,7 +1,7 @@
 <template>
   <!-- Friend List -->
   <div class="mt-3" v-if="showFriendList">
-    <el-scrollbar height="450px">
+    <el-scrollbar height="800px">
       <el-card>
         <div v-for="friend in friendList" :key="friend.friendId">
           <div class="flex items-center border-b mt-4 pb-2">
@@ -30,23 +30,21 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue'
-import request from '../utils/request'
+import { ref, onMounted, nextTick } from 'vue'
+import request from '../../utils/request'
 import { useRouter } from 'vue-router'
 
+const props = defineProps({
+  keyword: {
+    type: String,
+    required: true
+  }
+})
+
 onMounted(() => {
-  request
-    .get('/friendship/getFriendList', {
-      params: {
-        userId: localUser.userId
-      }
-    })
-    .then((res) => {
-      if (res.data.length > 0) {
-        showFriendList.value = true
-        friendList.value = res.data
-      }
-    })
+  nextTick(() => {
+    fetchData()
+  })
 })
 
 const friendList = ref([
@@ -63,6 +61,21 @@ const showFriendList = ref(false)
 const router = useRouter()
 function handleClick(friend) {
   router.push({ path: '/profile/' + friend.friendId })
+}
+
+function fetchData(){
+  request
+    .get('/search/user', {
+      params: {
+        keyword: props.keyword,
+      }
+    })
+    .then((res) => {
+      if (res.data.length > 0) {
+        showFriendList.value = true
+        friendList.value = res.data
+      }
+    })
 }
 </script>
 <style></style>

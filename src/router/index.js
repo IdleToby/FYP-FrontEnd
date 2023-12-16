@@ -71,8 +71,18 @@ const router = createRouter({
           path: 'postManagement',
           name: 'postManagement',
           component: () => import('../views/PostManagementView.vue')
+        },
+        {
+          path: 'reportManagement',
+          name: 'reportManagement',
+          component: () => import('../views/ReportManagementView.vue')
         }
       ]
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('../views/SearchView.vue')
     },
     {
       path: '/test',

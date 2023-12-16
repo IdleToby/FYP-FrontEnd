@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-4">
-      <el-input style="width: 200px" placeholder="Search ID" v-model="publisherId"></el-input>
+      <el-input style="width: 200px" placeholder="Search Publisher ID" v-model="publisherId"></el-input>
       <el-input
         style="width: 200px; margin: 0 5px"
         placeholder="Search Content"
@@ -98,23 +98,6 @@
               :value="tag.value"
             ></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="File:" prop="hasFile">
-          <el-switch v-model="newPost.hasFile"></el-switch>
-        </el-form-item>
-        <el-form-item v-if="newPost.hasFile">
-          <el-upload
-            class="upload-demo w-full"
-            drag
-            action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-            multiple
-          >
-            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-            <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
-            <template #tip>
-              <div class="el-upload__tip">a signle file within 20MB</div>
-            </template>
-          </el-upload>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitPost">Submit</el-button>
@@ -293,7 +276,7 @@ const editorConfig = {
     uploadImage: {
       server: baseURL + '/file/editor/upload',
       fieldName: 'file',
-      maxFileSize: 20 * 1024 * 1024,
+      maxFileSize: 50 * 1024 * 1024,
       headers: {
         token: localUser.value.token
       },
@@ -304,7 +287,7 @@ const editorConfig = {
     uploadVideo: {
       server: baseURL + '/file/editor/upload',
       fieldName: 'file',
-      maxFileSize: 20 * 1024 * 1024,
+      maxFileSize: 50 * 1024 * 1024,
       headers: {
         token: localUser.value.token
       },

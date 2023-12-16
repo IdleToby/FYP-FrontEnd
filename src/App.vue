@@ -11,7 +11,8 @@ const notShowLayoutList = [
   '/admin',
   '/admin/userManagement',
   '/admin/postManagement',
-  '/admin/newsManagement'
+  '/admin/newsManagement',
+  '/admin/reportManagement'
 ]
 // eslint-disable-next-line no-unused-vars
 const handleSelect = (key, keyPath) => {
@@ -40,6 +41,17 @@ function logout() {
   localStorage.removeItem('user')
   router.push('/login')
 }
+
+import { useSearchStore } from './stores/search'
+const searchStore = useSearchStore()
+const types = searchStore.types
+
+const searchType = ref('Post')
+const searchKeyword = ref('')
+
+function handleSearch() {
+  router.push({ path: '/search', query: { type: searchType.value, keyword: searchKeyword.value } })
+}
 </script>
 
 <template>
@@ -59,17 +71,31 @@ function logout() {
         <el-menu-item index="/frontPage">Front Page</el-menu-item>
         <el-menu-item index="/news">News</el-menu-item>
         <div class="flex-grow"></div>
-        <div class="flex my-auto">
-          <el-input
-            v-model="search"
-            placeholder="Search"
-            prefix-icon="el-icon-search"
-            size="small"
-            clearable
-            @clear="search = ''"
-            @keyup.enter.native="searchPost"
-          />
-          <el-button type="primary" size="small" @click="searchPost">Search</el-button>
+        <div class="flex h-10 my-auto">
+          <el-form :inline="true" size="large">
+            <el-form-item>
+              <el-select v-model="searchType" placeholder="">
+                <el-option
+                  v-for="type in types"
+                  :key="type.value"
+                  :label="type.value"
+                  :value="type.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item style="width: 500px">
+              <el-input
+                v-model="searchKeyword"
+                placeholder="Search"
+                prefix-icon="Search"
+                clearable
+                @clear="search = ''"
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="handleSearch"> Search </el-button>
+            </el-form-item>
+          </el-form>
         </div>
         <el-menu-item index="/admin" v-if="user.role == 'admin'">Admin</el-menu-item>
         <el-sub-menu index="0">

@@ -1,5 +1,5 @@
 <template>
-  <div class=" w-8/12 mx-auto flex" style="min-height: 1000px;">
+  <div class=" w-8/12 mx-auto" style="min-height: 1000px;">
     <el-row>
       <el-col :span="16">
         <post-list-component />
@@ -35,23 +35,6 @@
           <el-option v-for="tag in tagList" :key="tag.label" :label="tag.label" :value="tag.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="File:" prop="hasFile">
-        <el-switch v-model="newPost.hasFile"></el-switch>
-      </el-form-item>
-      <el-form-item v-if="newPost.hasFile">
-        <el-upload class="upload-demo w-full" drag action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-          multiple>
-          <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text">
-            Drop file here or <em>click to upload</em>
-          </div>
-          <template #tip>
-            <div class="el-upload__tip">
-              a signle file within 20MB
-            </div>
-          </template>
-        </el-upload>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitPost">Submit</el-button>
       </el-form-item>
@@ -63,7 +46,6 @@ import PostListComponent from '../components/Post/PostListComponent.vue';
 import FriendListComponent from '../components/FriendListComponent.vue';
 
 import { ref, onMounted, shallowRef, onBeforeUnmount, watch } from 'vue';
-import { UploadFilled } from '@element-plus/icons-vue'
 import request from '../utils/request';
 import { ElMessage } from 'element-plus';
 
@@ -144,7 +126,7 @@ const editorConfig = {
     'uploadImage': {
       server: baseURL + '/file/editor/upload',
       fieldName: 'file',
-      maxFileSize: 20 * 1024 * 1024,
+      maxFileSize: 50 * 1024 * 1024,
       headers: {
         token: localUser.value.token,
       },
@@ -155,7 +137,7 @@ const editorConfig = {
     'uploadVideo': {
       server: baseURL + '/file/editor/upload',
       fieldName: 'file',
-      maxFileSize: 20 * 1024 * 1024,
+      maxFileSize: 50 * 1024 * 1024,
       headers: {
         token: localUser.value.token,
       },
