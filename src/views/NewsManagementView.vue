@@ -18,11 +18,12 @@
       stripe
       :header-cell-style="{ backgroundColor: 'aliceblue', color: '#666' }"
     >
-      <el-table-column prop="news.newsId" label="News ID" align="center"></el-table-column>
+      <el-table-column prop="news.newsId" label="News ID" align="center" width="100"></el-table-column>
       <el-table-column
         prop="news.publisherId"
         label="Publisher ID"
         align="center"
+        width="110"
       ></el-table-column>
       <el-table-column prop="publisherName" label="Publisher Name"></el-table-column>
       <el-table-column prop="news.title" label="News Title"></el-table-column>
