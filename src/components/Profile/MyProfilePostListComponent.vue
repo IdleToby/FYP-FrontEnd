@@ -1,6 +1,6 @@
 <template>
     <div v-for="post in postList" :key="post.postId">
-        <post-component :post="post" />
+        <my-post-component :post="post" />
     </div>
     <div class=" flex" v-if="postList.length !== 0">
         <el-pagination background layout="prev, pager, next, jumper" :total="total" :page-size="pageSize"
@@ -14,7 +14,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
-import PostComponent from '../Post/PostComponent.vue';
+import MyPostComponent from './MyPostComponent.vue';
 import request from '../../utils/request';
 
 onMounted(() => {

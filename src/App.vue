@@ -104,7 +104,7 @@ function handleSearch() {
             {{ user.name }}
           </template>
           <el-menu-item index="/myProfile">My Profile</el-menu-item>
-          <el-menu-item index="/changePassword">Change Password</el-menu-item>
+          <el-menu-item index="/changePassword">My Account</el-menu-item>
           <el-menu-item @click="logout">Logout</el-menu-item>
         </el-sub-menu>
       </el-menu>
