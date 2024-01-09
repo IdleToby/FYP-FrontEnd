@@ -30,6 +30,11 @@
             :mode="mode" @onCreated="handleCreated" />
         </div>
       </el-form-item>
+      <el-form-item>
+        <el-text>
+          <span class="text-red-500">*Images and videos size should not exceed 50MB</span> 
+        </el-text>
+      </el-form-item>
       <el-form-item label="Tag:" prop="postTag">
         <el-select v-model="newPost.postTag" placeholder="">
           <el-option v-for="tag in tagList" :key="tag.label" :label="tag.label" :value="tag.value"></el-option>

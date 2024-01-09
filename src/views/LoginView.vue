@@ -48,7 +48,7 @@
 <script setup>
 import { ref } from 'vue'
 import request from '../utils/request'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import router from '../router'
 
 const user = ref({
@@ -70,7 +70,12 @@ function login() {
         if (res.code === '200') {
           //检查用户status
           if (res.data.status === 'banned') {
-            ElMessage.error('Your account has been disabled, please contact the administrator')
+            ElMessageBox.alert('Your account has been disabled, please contact the administrator at SWE2009523@xmu.edu.my', 'Error', {
+              confirmButtonText: 'OK',
+              callback: () => {
+                router.push({ path: '/login' })
+              }
+            })
             return
           }
 
